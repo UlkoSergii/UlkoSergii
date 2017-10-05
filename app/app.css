@@ -1,0 +1,25 @@
+/* app css stylesheet */
+body{
+  margin: 0;
+  min-width: 960px;
+}
+
+.provisional {
+  background: #fbee9f;
+  transition: .4s;
+}
+
+.provisional:hover {
+  background: #ebde95;
+}
+.simple {
+  transition: .4s;
+}
+.simple:hover {
+  background: #eeeeee;
+}
+
+form md-autocomplete input {
+  color: #333;
+}
+

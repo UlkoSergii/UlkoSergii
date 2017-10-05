@@ -1,0 +1,67 @@
+<md-content class="md-padding" flex="100" layout="column" layout-align="center center">
+
+    <div class="md-whiteframe-3dp" flex="90">
+        <md-toolbar class="md-hue-1">
+            <div class="md-toolbar-tools">
+                <h2 flex md-truncate>{{vm.city}}'s monthly meteorological data</h2>
+
+                <form flex='50' ng-submit="$event.preventDefault()">
+                    <md-autocomplete
+                            ng-disabled="vm.isDisabled"
+                            md-no-cache="vm.noCache"
+                            md-selected-item="vm.selectedItem"
+                            md-search-text-change="vm.searchTextChange(vm.searchText)"
+                            md-search-text="vm.searchText"
+                            md-selected-item-change="vm.selectedItemChange(item)"
+                            md-items="item in vm.querySearch(vm.searchText)"
+                            md-item-text="item.display"
+                            md-min-length="0"
+                            placeholder="Please, enter the city.">
+                        <md-item-template>
+                            <span md-highlight-text="vm.searchText" md-highlight-flags="^i">{{item.display}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            No states matching "{{vm.searchText}}" were found.
+                        </md-not-found>
+                    </md-autocomplete>
+                </form>
+            </div>
+        </md-toolbar>
+
+        <md-card>
+            <md-table-container>
+                <table md-table>
+                    <thead md-head md-order="vm.myOrder">
+                    <tr md-row>
+                        <th md-column md-numeric md-order-by="year_transformed">Year</th>
+                        <th md-column md-numeric md-order-by="month_transformed">Month</th>
+                        <th md-column md-numeric md-order-by="tmax_transformed">tmax (degC)</th>
+                        <th md-column md-numeric md-order-by="tmin_transformed">tmin (degC)</th>
+                        <th md-column md-numeric md-order-by="af_transformed">af (days)</th>
+                        <th md-column md-numeric md-order-by="rain_transformed">rain (mm)</th>
+                        <th md-column md-numeric md-order-by="sun_transformed">sun (hours)</th>
+                    </tr>
+                    </thead>
+                    <tbody md-body>
+                    <tr md-row
+                        ng-repeat="item in vm.weatherData | orderBy: vm.myOrder | limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit"
+                        ng-class="item.Provisional ? 'provisional' : 'simple'">
+                        <td md-cell>{{item.year}}</td>
+                        <td md-cell>{{item.month}}</td>
+                        <td md-cell>{{item.tmax}}</td>
+                        <td md-cell>{{item.tmin}}</td>
+                        <td md-cell>{{item.af}}</td>
+                        <td md-cell>{{item.rain}}</td>
+                        <td md-cell>{{item.sun}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+            <md-table-pagination md-limit="vm.myLimit" md-limit-options="[10, 25, 50, 100]" md-page="vm.myPage"
+                                 md-total="{{vm.weatherData.length}}" md-page-select>
+            </md-table-pagination>
+        </md-card>
+    </div>
+</md-content>
+
+
